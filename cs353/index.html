@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Login</title>
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+        <link href="style.css" rel="stylesheet" type="text/css">
+    </head>
+	<body>
+		<div class="login"> 
+			<h1>Login</h1>
+			<form action="authenticate.php" method="post">
+				<label for="id">
+					<i class="fas fa-user"></i>
+				</label>
+				<input type="text" name="name" placeholder="Name" id="name">
+				<label for="password">
+					<i class="fas fa-lock"></i>
+				</label>
+				<input type="password" name="password" placeholder="Password" id="password">
+				<div class="custom-select">
+					<select name = "user">
+						<option selected disabled hidden>Select Your User Type Here</option>
+						<option value="1">Customer</option>
+						<option value="2">Tech Staff</option>
+						<option value="3">Customer Service</option>
+					</select>
+				</div>
+				<input type="submit" value="Login">
+			</form>
+			<form action="sign.html" method="post">
+				<input type="submit" value="Don't you have an account? Sign Up">
+			</form>
+		</div>
+	</body>
+</html>
