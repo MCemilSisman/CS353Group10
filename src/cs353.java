@@ -25,18 +25,14 @@ public class cs353 {
 			//type = 1: customer, 2: tech staff, 3: customer service
 			insertToUser(con, "1001", "Tarik", "qwerty", "Ankara", "05383715609", "1");
 			insertToUser(con, "1002", "Cemil", "qwerty", "Ankara", "05555555555", "1");
-			insertToUser(con, "1003", "Sarp", "qwerty", "Ankara", "05353535353", "1");
-			insertToUser(con, "1004", "Ekin", "qwerty", "Ankara", "05454545454", "1");
-			insertToUser(con, "2001", "Ayse", "qwerty", "Ankara", "05656566556", "2");
-			insertToUser(con, "2002", "Ali", "qwerty", "Ankara", "05757575757", "2");
+			insertToUser(con, "2001", "Sarp", "qwerty", "Ankara", "05656566556", "2");
+			insertToUser(con, "2002", "Ekin", "qwerty", "Ankara", "05757575757", "2");
 			insertToUser(con, "2003", "Ahmet", "qwerty", "Ankara", "0525252525", "2");
 			insertToUser(con, "3001", "Mehmet", "qwerty", "Ankara", "0595959595", "3");
 			
 			//insert customer tuples
 			insertToCustomer(con, "1001", "29/08/1998" );
 			insertToCustomer(con, "1002", "18/07/1998" );
-			insertToCustomer(con, "1003", "14/06/1998" );
-			insertToCustomer(con, "1004", "13/05/1998" );
 			
 			//insert employee tuples
 			insertToEmployee(con, "2001", "30000", "9:00-17:00");
@@ -60,9 +56,9 @@ public class cs353 {
 			
 			//insert buys tuples
 			insertToBuys(con, "1001", "4001");
+			insertToBuys(con, "1001", "4002");
+			insertToBuys(con, "1001", "4003");
 			insertToBuys(con, "1002", "4001");
-			insertToBuys(con, "1003", "4002");
-			insertToBuys(con, "1004", "4003");
 			
 			//insert category tuples
 			insertToCategory(con, "Household Appliances");
@@ -90,12 +86,14 @@ public class cs353 {
 			
 			//insert spare part tuples
 			insertToSparePart(con, "6001", "Lenovo Screen 17 inches", "200");
+			insertToSparePart(con, "6002", "Monster CPU Unit", "100");
+			insertToSparePart(con, "6003", "Arcelik Cooler Unit", "50");
 			
 			//insert request tuples
 			insertToRequest(con, "5001", "2003", "6001");
 			
 			//insert complaint tuples
-			insertToComplaint(con, "7001", "1001", "3001", "Repair request taking too long", "I made a repair request and I approved the repairment, it has been 2 weeks but I haven\\'t been notified of the process. What\\'s taking so long?");
+			insertToComplaint(con, "7001", "5001", "1001", "3001", "Repair request taking too long", "I made a repair request and I approved the repairment, it has been 2 weeks but I haven\\'t been notified of the process. What\\'s taking so long?");
 			
 			//insert conversation tuples
 			insertToConversation(con, "7001", "1", "1001", "3001", "I demand to be informed of my product\\'s repairment process.", "28/12/2019", "The spare part needed for your product arrived only yesterday, your product\\'s repairment process has begun today.", "29/12/2019");
@@ -241,11 +239,13 @@ public class cs353 {
 	                   " ) ENGINE=INNODB";
 		    String complaintSql = "CREATE TABLE complaint(" +
 		    		   " complaint_id INT not NULL AUTO_INCREMENT, " +
+		    		   " repair_request_id INT not NULL, " + 
 		    		   " customer_id INT not NULL, " + 
 		    		   " customer_service_id INT not NULL, " +
 		    		   " topic VARCHAR(45) not NULL, " + 
 		    		   " explanation MEDIUMTEXT not NULL, " +
 	                   " PRIMARY KEY ( complaint_id ), " +
+	                   " FOREIGN KEY (repair_request_id) REFERENCES repair_request(repair_request_id), " +
 	                   " FOREIGN KEY (customer_id) REFERENCES customer(id), " +
 	                   " FOREIGN KEY (customer_service_id) REFERENCES customer_service(id) " +
 	                   " ) ENGINE=INNODB";
@@ -602,13 +602,14 @@ public class cs353 {
 		}
 	}
 	
-	public static void insertToComplaint( Connection con, String complaint_id, String customer_id, String customer_service_id, String topic, String explanation ) {
+	public static void insertToComplaint( Connection con, String complaint_id, String repair_request_id, String customer_id, String customer_service_id, String topic, String explanation ) {
 		try {
 			System.out.println("Inserting " + complaint_id + " into complaint");
 		    Statement stmt = con.createStatement();
 		    //SQL string to insert
-		    String sql = "INSERT INTO complaint (complaint_id, customer_id, customer_service_id, topic, explanation) VALUES (" +
+		    String sql = "INSERT INTO complaint (complaint_id, repair_request_id, customer_id, customer_service_id, topic, explanation) VALUES (" +
 		    			 "'" + complaint_id + "'," +
+		    			 "'" + repair_request_id + "'," +
 		    			 "'" + customer_id + "'," +
 		    			 "'" + customer_service_id + "'," +
 		    			 "'" + topic + "'," +
