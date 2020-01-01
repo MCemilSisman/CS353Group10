@@ -28,13 +28,12 @@ if (isset($_POST['submit'])) {
     if (empty($username)) { array_push($errors, "Username is a required field"); }
 }
 
-// uncomment this part if you want to make name unique
-// check the database to make sure  a user does not already exist with the same username
-/*$user_check_query = "SELECT name FROM user WHERE name='$username'";
+// check the database to make sure a user of the same type does not already exist with the same username
+$user_check_query = "SELECT name FROM user WHERE name='$username' AND type = {$_SESSION['type']}";
 $result = mysqli_query($con, $user_check_query);
 if ( mysqli_num_rows($result) != 0 ) { // if user exists
-    array_push($errors, "Username already exists");
-}*/
+    array_push($errors, "An account with the same user type and username already exists");
+}
 
 // Update employee, customer_service and user
 if (count($errors) == 0) {

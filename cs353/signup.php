@@ -28,13 +28,14 @@ else if (isset($_POST['signedUser'])) {
     if (empty($username)) { array_push($errors, "Username is a required field"); }
 }
 
-// uncomment this part if you want to make name unique
-// check the database to make sure  a user does not already exist with the same username
-/*$user_check_query = "SELECT name FROM user WHERE name='$username'";
-$result = mysqli_query($con, $user_check_query);
-if ( mysqli_num_rows($result) != 0 ) { // if user exists
-    array_push($errors, "Username already exists");
-}*/
+// check the database to make sure a user of the same type does not already exist with the same username
+if(!empty($userType)){
+    $user_check_query = "SELECT name FROM user WHERE name='$username' AND type = $userType";
+    $result = mysqli_query($con, $user_check_query);
+    if ( mysqli_num_rows($result) != 0 ) { // if user exists
+        array_push($errors, "An account with the same user type and username already exists");
+    }
+}
 
 // Finally, register user if there are no errors in the form
 if (count($errors) == 0) {
